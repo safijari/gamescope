@@ -10,6 +10,9 @@ project(
   ],
 )
 
+version = run_command('git', 'describe', '--dirty', '--broken', check: true).stdout().strip()
+add_global_arguments('-DGAMESCOPE_VERSION="@0@"'.format(version), language : 'cpp')
+
 add_project_arguments([
   '-DWLR_USE_UNSTABLE',
 ], language: 'cpp')
