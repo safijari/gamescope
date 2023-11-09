@@ -129,6 +129,7 @@ version_h = custom_target(
     output : 'gamescope_version.h',
     input: '../scripts/generate_version_header.sh',
     command : ['bash', '@INPUT@', '@OUTPUT@'],
+    build_always_stale: true,
     build_by_default: true,
 )
 
