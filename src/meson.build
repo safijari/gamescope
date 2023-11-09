@@ -124,6 +124,7 @@ if openvr_dep.found()
   src += 'vr_session.cpp'
 endif
 
+  version = run_command('git', 'describe', '--dirty', '--broken', check: true).stdout().strip()
   executable(
     'gamescope',
     src, reshade_src,
@@ -135,6 +136,7 @@ endif
       vulkan_dep, liftoff_dep, dep_xtst, dep_xmu, cap_dep, pipewire_dep, librt_dep,
       stb_dep, displayinfo_dep, openvr_dep,
     ],
+    cpp_args: '-DGAMESCOPE_VERSION="@0@"'.format(version),
     install: true,
   )
 
