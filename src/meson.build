@@ -124,21 +124,29 @@ if openvr_dep.found()
   src += 'vr_session.cpp'
 endif
 
-  version = run_command('git', 'describe', '--dirty', '--broken', check: true).stdout().strip()
-  executable(
-    'gamescope',
-    src, reshade_src,
-    include_directories : [reshade_include],
-    dependencies: [
-      dep_wayland, dep_x11, dep_xdamage, dep_xcomposite, dep_xrender, dep_xext, dep_xfixes,
-      dep_xxf86vm, dep_xres, glm_dep, drm_dep, wayland_server,
-      xkbcommon, thread_dep, sdl_dep, wlroots_dep,
-      vulkan_dep, liftoff_dep, dep_xtst, dep_xmu, cap_dep, pipewire_dep, librt_dep,
-      stb_dep, displayinfo_dep, openvr_dep,
-    ],
-    cpp_args: '-DGAMESCOPE_VERSION="@0@"'.format(version),
-    install: true,
-  )
+version_h = custom_target(
+    'gamescope_version.h',
+    output : 'gamescope_version.h',
+    input: '../scripts/generate_version_header.sh',
+    command : ['bash', '@INPUT@', '@OUTPUT@'],
+    build_by_default: true,
+)
+
+src += version_h
+
+executable(
+  'gamescope',
+  src, reshade_src,
+  include_directories : [reshade_include],
+  dependencies: [
+    dep_wayland, dep_x11, dep_xdamage, dep_xcomposite, dep_xrender, dep_xext, dep_xfixes,
+    dep_xxf86vm, dep_xres, glm_dep, drm_dep, wayland_server,
+    xkbcommon, thread_dep, sdl_dep, wlroots_dep,
+    vulkan_dep, liftoff_dep, dep_xtst, dep_xmu, cap_dep, pipewire_dep, librt_dep,
+    stb_dep, displayinfo_dep, openvr_dep,
+  ],
+  install: true,
+)
 
 
 benchmark_dep = dependency('benchmark', required: get_option('benchmark'), disabler: true)

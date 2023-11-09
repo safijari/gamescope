@@ -25,6 +25,7 @@
 #include "sdlwindow.hpp"
 #include "wlserver.hpp"
 #include "gpuvis_trace_utils.h"
+#include "gamescope_version.h"
 
 #if HAVE_OPENVR
 #include "vr_session.hpp"

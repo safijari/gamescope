@@ -10,13 +10,6 @@ project(
   ],
 )
 
-version_h = custom_target(
-    "gamescope_version.h",
-    output : "gamescope_version.h",
-    input: "scripts/generate_version_header.sh",
-    command : ['@INPUT@', '@OUTPUT@'],
-)
-
 add_project_arguments([
   '-DWLR_USE_UNSTABLE',
 ], language: 'cpp')

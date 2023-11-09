@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+echo "in gamescope version script $1"
 export VERSION=`git describe --dirty --broken`
-echo "#DEFINE VERSION "$VERSION > $1
+echo "#define GAMESCOPE_VERSION \"$VERSION\"" > $1
