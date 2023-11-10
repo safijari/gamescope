@@ -3522,7 +3522,7 @@ bool vulkan_screenshot( const struct FrameInfo_t *frameInfo, std::shared_ptr<CVu
 	for (uint32_t i = 0; i < EOTF_Count; i++)
 		cmdBuffer->bindColorMgmtLuts(i, frameInfo->shaperLut[i], frameInfo->lut3D[i]);
 
-	cmdBuffer->bindPipeline( g_device.pipeline(SHADER_TYPE_BLIT, frameInfo->layerCount, frameInfo->ycbcrMask(), 0u, frameInfo->colorspaceMask(), EOTF_Gamma22 ));
+	cmdBuffer->bindPipeline( g_device.pipeline(SHADER_TYPE_BLIT, frameInfo->layerCount, frameInfo->ycbcrMask(), 0u, frameInfo->colorspaceMask(), EOTF_Gamma22));
 	bind_all_layers(cmdBuffer.get(), frameInfo);
 	cmdBuffer->bindTarget(pScreenshotTexture);
 	cmdBuffer->uploadConstants<BlitPushData_t>(frameInfo);
@@ -3752,7 +3752,7 @@ bool vulkan_composite( struct FrameInfo_t *frameInfo, std::shared_ptr<CVulkanTex
 			for (uint32_t i = 0; i < EOTF_Count; i++)
 				cmdBuffer->bindColorMgmtLuts(i, nullptr, nullptr);
 
-			cmdBuffer->bindPipeline(g_device.pipeline( ycbcr ? SHADER_TYPE_RGB_TO_NV12 : SHADER_TYPE_BLIT, 1, 0, 0, GAMESCOPE_APP_TEXTURE_COLORSPACE_SRGB, EOTF_Gamma22 ));
+			cmdBuffer->bindPipeline(g_device.pipeline( ycbcr ? SHADER_TYPE_RGB_TO_NV12 : SHADER_TYPE_BLIT, 1, 0, 0, GAMESCOPE_APP_TEXTURE_COLORSPACE_LINEAR, EOTF_Gamma22 ));
 			cmdBuffer->bindTexture(0, compositeImage);
 			cmdBuffer->setTextureSrgb(0, true);
 			cmdBuffer->setSamplerNearest(0, false);

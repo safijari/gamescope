@@ -39,10 +39,6 @@ vec4 sampleLayer(uint layerIdx, vec2 uv) {
   return sampleLayer(s_samplers[layerIdx], layerIdx, uv, true);
 }
 
-vec3 applyColorMatrix(vec3 rgb, mat3x4 matrix) {
-  return vec4(linearToSrgb(rgb), 1.0f) * matrix;
-}
-
 void main() {
   ivec3 thread_id = ivec3(gl_GlobalInvocationID);
 
@@ -63,11 +59,11 @@ void main() {
     };
 
     vec3 avg_color = (color[0] + color[1] + color[2] + color[3]) / 4.0f;
-    vec2 uv = applyColorMatrix(avg_color, u_ctm[0]).yz;
+    vec2 uv = linearToSrgb(avg_color).yz;
     imageStore(dst_chroma, chroma_uv, vec4(uv, 0.0f, 1.0f));
 
     for (int i = 0; i < 4; i++) {
-      float y = applyColorMatrix(color[i], u_ctm[0]).x;
+      float y = linearToSrgb(color[i]).x;
       imageStore(dst_luma, luma_uv + offset_table[i], vec4(y, 0.0f, 0.0f, 1.0f));
     }
   }
