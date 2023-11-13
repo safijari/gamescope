@@ -2734,6 +2734,12 @@ paint_all(bool async)
 		{
 			pPipewireTexture = pw_buffer->texture;
 		}
+
+                for ( uint32_t nInputEOTF = 0; nInputEOTF < EOTF_Count; nInputEOTF++ )
+                {
+                        frameInfo.lut3D[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut3d;
+                        frameInfo.shaperLut[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut1d;
+                }
 #endif
 
 		struct FrameInfo_t compositeFrameInfo = frameInfo;
