@@ -3539,6 +3539,7 @@ uint64_t defer_sequence = 0;
 
 bool vulkan_composite( struct FrameInfo_t *frameInfo, std::shared_ptr<CVulkanTexture> pPipewireTexture, bool partial, bool defer )
 {
+  // printf("in vulkan composite %d %d\n", partial, defer);
 	if ( defer_wait_thread )
 	{
 		defer_wait_thread->join();
@@ -3780,6 +3781,8 @@ bool vulkan_composite( struct FrameInfo_t *frameInfo, std::shared_ptr<CVulkanTex
 	{
 		g_output.nOutImage = ( g_output.nOutImage + 1 ) % 3;
 	}
+
+    std::shared_ptr<CVulkanTexture> output = g_output.outputImages[0];
 
 	return true;
 }

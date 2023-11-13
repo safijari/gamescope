@@ -2826,6 +2826,11 @@ paint_all(bool async)
 		drm_commit( &g_DRM, &frameInfo );
 	}
 
+        std::shared_ptr<CVulkanTexture> pScreenshotTexture = vulkan_acquire_screenshot_texture(g_nOutputWidth, g_nOutputHeight, false, DRM_FORMAT_NV12);
+        printf("Got screenshot?\n");
+        bool bResult = vulkan_screenshot( &frameInfo, pScreenshotTexture );
+        printf("Got screenshot %d\n", bResult);
+
 	if ( takeScreenshot )
 	{
 		constexpr bool bHackForceNV12DumpScreenshot = false;
