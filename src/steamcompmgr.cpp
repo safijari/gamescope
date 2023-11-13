@@ -2735,11 +2735,6 @@ paint_all(bool async)
 			pPipewireTexture = pw_buffer->texture;
 		}
 
-                for ( uint32_t nInputEOTF = 0; nInputEOTF < EOTF_Count; nInputEOTF++ )
-                {
-                        frameInfo.lut3DPipewire[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut3d;
-                        frameInfo.shaperLutPipewire[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut1d;
-                }
 #endif
 
 		struct FrameInfo_t compositeFrameInfo = frameInfo;
@@ -2803,6 +2798,12 @@ paint_all(bool async)
 		// so we know!
 		if ( bDefer && !!( g_uCompositeDebug & CompositeDebugFlag::Markers ) )
 			g_uCompositeDebug |= CompositeDebugFlag::Markers_Partial;
+
+                for ( uint32_t nInputEOTF = 0; nInputEOTF < EOTF_Count; nInputEOTF++ )
+                {
+                        compositeFrameInfo.lut3DPipewire[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut3d;
+                        compositeFrameInfo.shaperLutPipewire[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut1d;
+                }
 
 		bool bResult = vulkan_composite( &compositeFrameInfo, pPipewireTexture, !bNeedsFullComposite, bDefer );
 
