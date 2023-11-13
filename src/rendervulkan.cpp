@@ -3750,7 +3750,7 @@ bool vulkan_composite( struct FrameInfo_t *frameInfo, std::shared_ptr<CVulkanTex
 			}
 
 			for (uint32_t i = 0; i < EOTF_Count; i++)
-				cmdBuffer->bindColorMgmtLuts(i, nullptr, nullptr);
+				cmdBuffer->bindColorMgmtLuts(i, frameInfo->shaperLutPipewire[i], frameInfo->lut3DPipewire[i]);
 
 			cmdBuffer->bindPipeline(g_device.pipeline( ycbcr ? SHADER_TYPE_RGB_TO_NV12 : SHADER_TYPE_BLIT, 1, 0, 0, GAMESCOPE_APP_TEXTURE_COLORSPACE_LINEAR, EOTF_Gamma22 ));
 			cmdBuffer->bindTexture(0, compositeImage);

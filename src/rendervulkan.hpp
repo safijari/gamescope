@@ -266,6 +266,9 @@ struct FrameInfo_t
 	std::shared_ptr<CVulkanTexture> shaperLut[EOTF_Count];
 	std::shared_ptr<CVulkanTexture> lut3D[EOTF_Count];
 
+	std::shared_ptr<CVulkanTexture> shaperLutPipewire[EOTF_Count];
+	std::shared_ptr<CVulkanTexture> lut3DPipewire[EOTF_Count];
+
 	bool applyOutputColorMgmt; // drm only
 
 	int layerCount;
