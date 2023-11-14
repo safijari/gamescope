@@ -2798,6 +2798,13 @@ paint_all(bool async)
 		if ( bDefer && !!( g_uCompositeDebug & CompositeDebugFlag::Markers ) )
 			g_uCompositeDebug |= CompositeDebugFlag::Markers_Partial;
 
+
+                for ( uint32_t nInputEOTF = 0; nInputEOTF < EOTF_Count; nInputEOTF++ )
+                {
+                        compositeFrameInfo.lut3D[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut3d;
+                        compositeFrameInfo.shaperLut[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut1d;
+                }
+
 		bool bResult = vulkan_composite( &compositeFrameInfo, pPipewireTexture, !bNeedsFullComposite, bDefer );
 
 		g_bWasCompositing = true;
