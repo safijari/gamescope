@@ -120,6 +120,8 @@ gamescope_color_mgmt_luts g_ColorMgmtLuts[ EOTF_Count ];
 
 gamescope_color_mgmt_luts g_ScreenshotColorMgmtLuts[ EOTF_Count ];
 
+gamescope_color_mgmt_luts g_PipewireColorMgmtLuts[ EOTF_Count ];
+
 static lut1d_t g_tmpLut1d;
 static lut3d_t g_tmpLut3d;
 
@@ -156,6 +158,15 @@ static const gamescope_color_mgmt_t k_ScreenshotColorMgmt =
 	.enabled = true,
 	.displayColorimetry = displaycolorimetry_709,
 	.displayEOTF = EOTF_Gamma22,
+	.outputEncodingColorimetry = displaycolorimetry_709,
+	.outputEncodingEOTF = EOTF_Gamma22,
+};
+
+static const gamescope_color_mgmt_t k_PipewireColorMgmt =
+{
+	.enabled = true,
+	.displayColorimetry = displaycolorimetry_2020,
+	.displayEOTF = EOTF_PQ,
 	.outputEncodingColorimetry = displaycolorimetry_709,
 	.outputEncodingEOTF = EOTF_Gamma22,
 };
@@ -380,6 +391,7 @@ static void
 update_screenshot_color_mgmt()
 {
 	create_color_mgmt_luts(k_ScreenshotColorMgmt, g_ScreenshotColorMgmtLuts);
+	create_color_mgmt_luts(k_PipewireColorMgmt, g_PipewireColorMgmtLuts);
 }
 
 bool set_color_sdr_gamut_wideness( float flVal )
@@ -2801,8 +2813,8 @@ paint_all(bool async)
 
                 for ( uint32_t nInputEOTF = 0; nInputEOTF < EOTF_Count; nInputEOTF++ )
                 {
-                        compositeFrameInfo.lut3D[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut3d;
-                        compositeFrameInfo.shaperLut[nInputEOTF] = g_ScreenshotColorMgmtLuts[nInputEOTF].vk_lut1d;
+                        compositeFrameInfo.lut3DPW[nInputEOTF] = g_PipewireColorMgmtLuts[nInputEOTF].vk_lut3d;
+                        compositeFrameInfo.shaperLutPW[nInputEOTF] = g_PipewireColorMgmtLuts[nInputEOTF].vk_lut1d;
                 }
 
 		bool bResult = vulkan_composite( &compositeFrameInfo, pPipewireTexture, !bNeedsFullComposite, bDefer );
