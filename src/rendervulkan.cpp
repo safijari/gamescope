@@ -3753,7 +3753,6 @@ bool vulkan_composite( struct FrameInfo_t *frameInfo, std::shared_ptr<CVulkanTex
 				cmdBuffer->bindColorMgmtLuts(i, nullptr, nullptr);
 
 			cmdBuffer->bindPipeline(g_device.pipeline( ycbcr ? SHADER_TYPE_RGB_TO_NV12 : SHADER_TYPE_BLIT, 1, 0, 0, GAMESCOPE_APP_TEXTURE_COLORSPACE_LINEAR, EOTF_Gamma22 ));
-			cmdBuffer->bindTexture(0, compositeImage);
 			cmdBuffer->setTextureSrgb(0, true);
 			cmdBuffer->setSamplerNearest(0, false);
 			cmdBuffer->setSamplerUnnormalized(0, true);
